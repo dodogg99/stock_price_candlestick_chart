@@ -11,7 +11,7 @@ import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('app_secret_key')
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///search-records.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 Bootstrap(app)
 db = SQLAlchemy(app)
 
