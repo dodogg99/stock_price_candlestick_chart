@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+{% import "bootstrap/wtf.html" as wtf %}
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>台灣上市櫃股票歷史走勢查詢</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="static/assets/img/favicon.png" rel="icon" type="image/x-icon">>
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="static/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="static/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="static/assets/css/style.css" rel="stylesheet">
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="{{ url_for('home') }}" class="logo d-flex align-items-center">
+        <img src="static/assets/img/logo.jpg" alt="">
+        <span class="d-none d-lg-block">台灣上市櫃股票歷史走勢查詢</span>
+      </a>
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main" class="main">
+
+    <section class="section dashboard">
+      <div class="row">
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+          <div class="row">
+
+            <div class="col-12">
+              <div class="card">
+
+                <div class="card-body">
+                  <h5 class="card-title"><b>輸入股票代碼及日期</b></h5>
+                  {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+                    {% with messages = get_flashed_messages() %}
+                      {% if messages %}
+                        {% for message in messages %}
+                          <p style="color: red">{{ message }}</p>
+                        {% endfor %}
+                      {% endif %}
+                    {% endwith %}
+                </div>
+              </div>
+
+            </div><!-- End Reports -->
+          </div>
+        </div><!-- End Left side columns -->
+
+        <!-- Right side columns -->
+        <div class="col-lg-4">
+          <div class="row">
+
+            <div class="col-lg-8">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title"><b>搜尋紀錄</b></h5>
+                    <table class="table table-striped">
+                      {% for record in records: %}
+                        <tr>
+                            <td>
+                              <a href="{{ url_for('search_price', ticker=record.ticker) }}">{{ record.ticker }}</a>
+                              <a href="{{ url_for('delete_record', ticker=record.ticker)}}">✖</a>
+                            </td>
+                        </tr>
+                      {% endfor %}
+  	                </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- End Right side columns -->
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+</body>
+
+</html>
