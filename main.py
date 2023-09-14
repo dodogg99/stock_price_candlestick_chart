@@ -133,5 +133,12 @@ def delete_record():
     return redirect(url_for('home'))
 
 
+@app.route('/test/wehook', methods=['GET', 'POST'])
+def test():
+    if request.method == 'POST':
+        return 'successfully'
+    return 'test'
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
